@@ -49,6 +49,14 @@ Obviously, these properties also propagate to templates:
 {{/if}}
 ```
 
+If you need to get notified when a breakpoint is matched or not, you can listen to an event for each breakpoint.
+
+```js
+this.get('media').on('desktop', (isMatch) => {
+  //...
+});
+```
+
 You should also bind the list of active media queries to your app's
 rootElement. This means you won't have to deal with complicated media
 queries in CSS, instead simply use classes to style the different devices.

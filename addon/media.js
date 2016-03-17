@@ -73,7 +73,7 @@ const { dasherize, classify } = Ember.String;
 * @class     Media
 * @extends   Ember.Object
 */
-export default Ember.Service.extend({
+export default Ember.Service.extend(Ember.Evented, {
 
   /**
   * A set of matching matchers.
@@ -178,6 +178,7 @@ export default Ember.Service.extend({
       } else {
         this.get('matches').removeObject(name);
       }
+      this.trigger(name, matcher.matches);
     };
     this.get('listeners')[name] = listener;
 

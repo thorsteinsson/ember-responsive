@@ -95,3 +95,39 @@ test('matcher\'s isser property notifies upon change', function(assert) {
     'Expected 3 calls to an observer, '+observer.callCount+' were called instead'
   );
 });
+
+test('matcher\'s trigger an event', function(assert) {
+  var listener, matcher, name = 'somethingUnique',
+    subject = this.subject({ breakpoints: mediaRules }),
+    eventHandler = sinon.spy();
+
+  subject.on(name, eventHandler);
+  //First call
+  subject.match(name, 'query');
+  listener = subject.get('listeners')[name];
+
+  matcher = {}; // Dummy MediaQueryList
+  matcher.matches = true;
+  //Second call
+  listener(matcher);
+
+  matcher.matches = false;
+  //Third call
+  listener(matcher);
+
+  assert.equal(
+    3,
+    eventHandler.callCount,
+    'Expected 3 calls to the event handler'
+  );
+  assert.equal(
+    true,
+    eventHandler.secondCall.args[0],
+    'The second call matches'
+  );
+  assert.equal(
+    false,
+    eventHandler.thirdCall.args[0],
+    'The third call does not match'
+  );
+});
